@@ -1,0 +1,16 @@
+# Core Machine Learning Framework
+torch>=2.2.0
+torchvision>=0.17.0
+
+# Foundation Model Access (CLIP Weights)
+transformers>=4.38.0
+huggingface-hub>=0.20.0
+
+# Experiment Tracking and Configuration
+mlflow>=2.10.0
+PyYAML>=6.0.1
+
+# Data Utilities and Benchmarking Matrix
+pandas>=2.2.0
+numpy>=1.26.0
+scikit-learn>=1.4.0
