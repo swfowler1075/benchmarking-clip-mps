@@ -1,0 +1,23 @@
+# config.yaml
+
+paths:
+  # The root directories you just found
+  base_metadata_dir: "./data/Animals_with_Attributes2"
+  images_dir: "./data/Animals_with_Attributes2/JPEGImages"
+  output_dir: "./outputs"
+  checkpoint_dir: "./checkpoints"
+
+dataset:
+  # AwA2 standard file names
+  classes_file: "classes.txt"
+  predicates_file: "predicates.txt"
+  matrix_file: "predicate-matrix-continuous.txt" # or predicate-matrix-binary.txt
+  train_split_file: "trainclasses.txt"
+  test_split_file: "testclasses.txt"
+
+model:
+  clip_variant: "openai/clip-vit-base-patch32"
+  device: "mps"                 # Apple Silicon GPU acceleration
+  batch_size: 32
+  learning_rate: 0.00005        # 5e-5
+  epochs: 10
