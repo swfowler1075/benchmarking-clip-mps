@@ -7,16 +7,53 @@ class AwA2DatasetLoader:
     def __init__(self,configfile):
         pass
         print("AwA2DatasetLoader")
-        # Pass the relative path from the project root
+        # Pass the config file contents to self.cfg
         self.cfg = configfile
+
         # Resolve base directory relative to the project root
         current_file = Path(__file__).resolve()
         project_root = current_file.parent.parent
         print("project_root", project_root)
 
-    def test(self):
-        print("Test")
+        # Stripping leading dots if any from the YAML path strings
+        #/data/Animals_with_Attributes2
+        base_dir_str = self.cfg['paths']['base_metadata_dir'].lstrip("./")
+        self.base_dir = project_root / base_dir_str
+        print("self.base_dir", self.base_dir)
 
-    def load(self):
+        # now extract the data from config file and concatenate the corrected
+        # paths
+        self.classes_file = self.base_dir / self.cfg['dataset']['classes_file']
+        self.train_file = self.base_dir / self.cfg['dataset']['train_split_file']
+        self.test_file = self.base_dir / self.cfg['dataset']['test_split_file']
+
+        print("self.classes_file", self.classes_file)
+        print("self.train_file", self.train_file)
+        print("self.test_file", self.test_file)
+
+    def load_splits(self):
         pass
-        print("Load")
+
+        """Parses the total classes and segments them into seen (train) and unseen (test) sets."""
+        # 1. Load all 50 classes into a clean Python list
+        all_classes = []
+        with open(self.classes_file, 'r') as f:
+            for line in f:
+                if line.strip():
+                    # Splits "1\tantelope" or "1  antelope" and takes the name portion
+                    class_name = line.split()[-1]
+                    all_classes.append(class_name)
+
+        # 2. Read the seen (train) animal names
+        with open(self.train_file, 'r') as f:
+            seen_classes = [line.strip() for line in f if line.strip()]
+
+        # 3. Read the unseen (test) animal names
+        with open(self.test_file, 'r') as f:
+            unseen_classes = [line.strip() for line in f if line.strip()]
+
+        print(f"Loaded {len(all_classes)} total classes.")
+        print(f"-> Seen (Train) classes: {len(seen_classes)}")
+        print(f"-> Unseen (Test) classes: {len(unseen_classes)}")
+
+        return all_classes, seen_classes, unseen_classes

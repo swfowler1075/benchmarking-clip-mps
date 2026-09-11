@@ -22,8 +22,8 @@ def main():
     config_file_path = "config/config.yaml"
     configfile = load_config(config_file_path)
     loader = AwA2DatasetLoader(configfile)
-    loader.test()
-    loader.load()
+    ll_cls, seen_cls, unseen_cls = loader.load_splits()
+
 
 
 if __name__ == "__main__":
