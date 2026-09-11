@@ -31,6 +31,27 @@ class AwA2DatasetLoader:
         print("self.train_file", self.train_file)
         print("self.test_file", self.test_file)
 
+    def load_attributes(self):
+        pass
+        # Loads the attribute matrix values and attribute(predicate) names
+        matrix_path = self.base_dir / self.cfg['dataset']['matrix_file']
+        predicates_path = self.base_dir / self.cfg['dataset']['predicates_file']
+
+        # Load attribute string names (e.g., 'black', 'white','furry', 'stripes')
+        with open(predicates_path, 'r') as f:
+            attributes = [line.split()[-1] for line in f if line.strip()]
+
+        # Load the 50x85 numerical matrix
+        matrix = []
+        with open(matrix_path, 'r') as f:
+            for line in f:
+                if line.strip():
+                    row_values = [float(val) for val in line.split()]
+                    matrix.append(row_values)
+
+        print(f"Successfully loaded attribute matrix: {len(matrix)} animals x {len(attributes)} attributes.")
+        return attributes, matrix
+
     def load_splits(self):
         pass
 

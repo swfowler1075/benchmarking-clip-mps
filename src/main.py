@@ -23,6 +23,7 @@ def main():
     configfile = load_config(config_file_path)
     loader = AwA2DatasetLoader(configfile)
     ll_cls, seen_cls, unseen_cls = loader.load_splits()
+    attrs, mat = loader.load_attributes()
 
 
 
