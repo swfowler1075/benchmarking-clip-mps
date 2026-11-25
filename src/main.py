@@ -25,6 +25,10 @@ def main():
     ll_cls, seen_cls, unseen_cls = loader.load_splits()
     attrs, mat = loader.load_attributes()
 
+    # Test indexing images for the training (seen) set
+    print("\nIndexing testing dataset images...")
+    seen_images = loader.get_image_paths(unseen_cls)
+
 
 
 if __name__ == "__main__":

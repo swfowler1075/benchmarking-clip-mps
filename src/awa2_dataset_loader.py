@@ -78,3 +78,23 @@ class AwA2DatasetLoader:
         print(f"-> Unseen (Test) classes: {len(unseen_classes)}")
 
         return all_classes, seen_classes, unseen_classes
+
+    def get_image_paths(self, target_classes):
+
+        # AwA2 contains images inside a directory named 'JPEGImages'
+        images_root = self.base_dir / "JPEGImages"
+        image_paths = []
+
+        # Loop through only the classes requested (e.g., seen or unseen)
+        for class_name in target_classes:
+            class_folder = images_root / class_name
+
+            if class_folder.exists():
+                # Glob all files ending in .jpg or .jpeg inside that folder
+                class_images = list(class_folder.glob("*.jpg")) + list(class_folder.glob("*.jpeg"))
+                image_paths.extend(class_images)
+            else:
+                print(f"Warning: Folder not found for class: {class_name}")
+
+        print(f"Indexed {len(image_paths)} total images across {len(target_classes)} classes.")
+        return image_paths
