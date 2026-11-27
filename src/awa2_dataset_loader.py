@@ -2,6 +2,17 @@ import os
 from pathlib import Path
 import yaml
 
+"""
+DEV NOTES — awa2_dataset_loader.py
+Role: Data Ingestion & Split Management (Complete)
+---------------------------------------------------------------------------
+- Parses Animals with Attributes 2 (AwA2) metadata from /data/Animals_with_Attributes2/.
+- Separates the 40 'seen' training classes from the 10 'unseen' zero-shot test classes.
+- Loads the 50x85 binary/continuous predicate matrix for attribute-based prompt expansion.
+- Resolves local JPEG file paths per class without external network calls.
+- Next: Keep as-is; feed unseen class names, attributes, and image paths into main.py.
+"""
+
 
 class AwA2DatasetLoader:
     def __init__(self,configfile):
@@ -33,6 +44,7 @@ class AwA2DatasetLoader:
 
     def load_attributes(self):
         pass
+
         # Loads the attribute matrix values and attribute(predicate) names
         matrix_path = self.base_dir / self.cfg['dataset']['matrix_file']
         predicates_path = self.base_dir / self.cfg['dataset']['predicates_file']

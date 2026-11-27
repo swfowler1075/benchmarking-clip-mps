@@ -3,6 +3,22 @@ from pathlib import Path
 import yaml
 from awa2_dataset_loader import AwA2DatasetLoader
 
+"""
+DEV NOTES — main.py
+Role: Benchmark Orchestrator & MLflow Experiment Logger
+---------------------------------------------------------------------------
+- Reads hyperparameters, device targets, and prompt templates from config/config.yaml.
+- Pulls unseen class splits and image paths via AwA2DatasetLoader.
+- Executes 1 warm-up pass on MPS (excluded from metrics), then runs 10 timed trials
+  comparing CPU (Float32) vs. MPS (Float16/Float32).
+- Captures and logs to local MLflow (`mlruns/`):
+    1. Average batch latency (ms) across 10 trials
+    2. Throughput (images/sec)
+    3. Peak MPS memory allocation (MB)
+    4. Top-1 zero-shot classification accuracy parity between CPU and MPS
+- Next: Add the 10-trial benchmark loop, MLflow logging, and CSV/figure export for the report.
+"""
+
 def load_config(configfile):
 
     # 1. Get the path of this exact script (e.g., ../src/main.py)
